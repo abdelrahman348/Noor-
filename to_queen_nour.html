@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To Queen Nour</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+      overflow-x: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.8) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 75%, rgba(255,255,255,.65) 0 2px, transparent 3px),
+        linear-gradient(135deg, #fff0f2, #ffe0e6 50%, #f9cbd5);
+      color: #721b2b;
+    }
+    .scene { width: min(100%, 620px); text-align: center; }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 7vw, 3.3rem);
+      color: #a51f3b;
+      text-shadow: 0 2px 0 #fff;
+    }
+    .hint { margin: 0; font: 600 1rem/1.5 Arial, sans-serif; color: #9a4053; }
+    .arrow {
+      display: block;
+      width: 54px;
+      height: 62px;
+      margin: 5px auto 8px;
+      color: #bd2949;
+      animation: point 1.1s ease-in-out infinite;
+    }
+    @keyframes point {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+    .envelope-button {
+      position: relative;
+      display: block;
+      width: min( min(86vw, 390px), 100%);
+      aspect-ratio: 1.55;
+      margin: 0 auto;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      filter: drop-shadow(0 16px 16px rgba(115, 20, 43, .2));
+      transition: transform .25s ease;
+    }
+    .envelope-button:hover { transform: translateY(-5px) scale(1.02); }
+    .envelope-button:focus-visible { outline: 3px solid #7e1830; outline-offset: 8px; border-radius: 12px; }
+    .envelope {
+      position: absolute; inset: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #e94b62;
+      border: 1px solid rgba(130, 15, 42, .2);
+    }
+    .envelope::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg, #f76b7b, #d92d4b);
+      clip-path: polygon(0 0, 50% 57%, 100% 0);
+      z-index: 3;
+      transition: transform .65s ease;
+      transform-origin: top;
+    }
+    .envelope::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(35deg, #c92343, #ed5368);
+      clip-path: polygon(0 100%, 50% 48%, 100% 100%);
+      z-index: 4;
+    }
+    .side-left, .side-right {
+      position: absolute; inset: 0; z-index: 2;
+      background: #df3653;
+    }
+    .side-left { clip-path: polygon(0 0, 52% 52%, 0 100%); }
+    .side-right { clip-path: polygon(100% 0, 48% 52%, 100% 100%); }
+    .seal {
+      position: absolute;
+      z-index: 5;
+      left: 50%; top: 56%;
+      transform: translate(-50%, -50%);
+      width: 58px; height: 58px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      color: #fff4e8;
+      background: radial-gradient(circle at 35% 30%, #ff9aab, #a91537 75%);
+      border: 2px solid rgba(255,255,255,.55);
+      font-size: 27px;
+      box-shadow: 0 3px 8px rgba(100,0,20,.2);
+      transition: opacity .3s ease;
+    }
+    .letter {
+      position: relative;
+      width: min(100%, 520px);
+      margin: 22px auto 0;
+      padding: 28px clamp(20px, 5vw, 38px);
+      border: 1px solid #f0c5cc;
+      border-radius: 16px;
+      background: rgba(255, 253, 250, .96);
+      box-shadow: 0 14px 35px rgba(130, 25, 50, .13);
+      opacity: 0;
+      transform: translateY(18px) scale(.98);
+      max-height: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 0;
+      transition: opacity .55s ease, transform .55s ease, max-height .7s ease, padding .5s ease, margin .5s ease;
+    }
+    .letter p {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      font-size: clamp(1.08rem, 3.7vw, 1.35rem);
+      line-height: 2;
+      direction: rtl;
+      color: #76253a;
+    }
+    .signature {
+      display: block;
+      margin-top: 22px;
+      color: #b12649;
+      font: italic 600 1.25rem Georgia, serif;
+    }
+    .scene.open .letter {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      max-height: 520px;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      margin-top: 22px;
+    }
+    .scene.open .envelope::before { transform: rotateX(180deg); }
+    .scene.open .seal { opacity: 0; }
+    .small-note { margin-top: 22px; color: #a45a6a; font: .85rem Arial, sans-serif; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="scene" id="scene">
+    <h1>To Queen Nour,</h1>
+    <p class="hint">A little message, just for you</p>
+    <svg class="arrow" viewBox="0 0 54 62" aria-hidden="true">
+      <path d="M27 3 V48 M10 32 L27 51 L44 32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <button class="envelope-button" id="envelopeButton" type="button"
+            aria-label="Open the red envelope" aria-expanded="false" aria-controls="letter">
+      <span class="envelope">
+        <span class="side-left"></span>
+        <span class="side-right"></span>
+        <span class="seal">♥</span>
+      </span>
+    </button>
+
+    <section class="letter" id="letter" aria-live="polite">
+      <p>
+        بحبك يا احلي واجمل نور في حياتي ربنا يخليكي ليا يا نور عيني وحياتي كلها وميحرمنيش منك ابدا واكون في ضهرك ومعاكي طول عمري بحبك يا احلي نور في الدنيا كلها يا احلي نور شافتها عيني
+      </p>
+      <span class="signature">AbdulRahman</span>
+    </section>
+    <p class="small-note">Tap the envelope to open your letter ♥</p>
+  </main>
+
+  <script>
+    const scene = document.getElementById("scene");
+    const button = document.getElementById("envelopeButton");
+
+    button.addEventListener("click", () => {
+      const isOpen = scene.classList.toggle("open");
+      button.setAttribute("aria-expanded", String(isOpen));
+      button.setAttribute("aria-label", isOpen ? "Close the red envelope" : "Open the red envelope");
+    });
+  </script>
+</body>
+</html>
